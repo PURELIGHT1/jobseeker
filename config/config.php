@@ -2,7 +2,7 @@
 $host = "localhost";     // host database (default XAMPP)
 $user = "root";          // user default MySQL
 $pass = "";              // password default (kosong di XAMPP)
-$db   = "varus";    // nama database (ganti sesuai kebutuhan)
+$db   = "mini_project2";    // nama database (ganti sesuai kebutuhan)
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 

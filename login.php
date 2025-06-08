@@ -42,6 +42,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             setcookie('role', $data['role'], $expire);
             setcookie('id_s', $hasil['id'], $expire);
             setcookie('full_name', $hasil['full_name'], $expire);
+            header("Location: ../umum/job_list.php?login=success");
         } elseif ($data['role'] == 'company') {
             $qry = "SELECT * FROM companies WHERE user_id = {$data['id']} LIMIT 1";
             $result = mysqli_query($conn, $qry);
@@ -54,11 +55,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             setcookie('role', $data['role'], $expire);
             setcookie('id_c', $hasil['id'], $expire);
             setcookie('company_name', $hasil['company_name'], $expire);
+            header("Location: ../perusahaan/job_list.php?login=success");
         } else {
             $error = "Role tidak dikenali.";
         }
 
-        header("Location: ../umum/job_list.php?login=success");
         exit();
     } else {
         $error = "Email atau Password salah.";
