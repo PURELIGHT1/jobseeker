@@ -1,0 +1,61 @@
+<?php
+session_start();
+require_once '../umum/config.php';
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'company') {
+    header('Location: ../umum/login.php');
+    exit();
+}
+
+$company_id = $_SESSION['company_id'] ?? null; // Pastikan company_id ada di session
+if (!$company_id) {
+    echo "ID perusahaan tidak ditemukan.";
+    exit();
+}
+
+// Ambil semua lowongan milik perusahaan beserta pelamarnya
+$query = "SELECT jobs.id AS job_id, jobs.title, applications.*, job_seekers.name AS applicant_name, job_seekers.email, job_seekers.phone
+          FROM jobs 
+          LEFT JOIN applications ON jobs.id = applications.job_id
+          LEFT JOIN job_seekers ON applications.job_seeker_id = job_seekers.id
+          WHERE jobs.company_id = ?
+          ORDER BY jobs.id DESC";
+
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $company_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$groupedApplications = [];
+
+while ($row = $result->fetch_assoc()) {
+    $groupedApplications[$row['job_id']]['job_title'] = $row['title'];
+    $groupedApplications[$row['job_id']]['applicants'][] = $row;
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daftar Pelamar</title>
+</head>
+<body>
+    <h1>Daftar Pelamar untuk Lowongan Anda</h1>
+
+    <?php foreach ($groupedApplications as $job_id => $data): ?>
+        <h3><?= htmlspecialchars($data['job_title']) ?></h3>
+        <?php if (!empty($data['applicants'][0]['applicant_name'])): ?>
+            <ul>
+                <?php foreach ($data['applicants'] as $app): ?>
+                    <li>
+                        <?= htmlspecialchars($app['applicant_name']) ?> - <?= htmlspecialchars($app['email']) ?> - <?= htmlspecialchars($app['phone']) ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>Tidak ada pelamar untuk lowongan ini.</p>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+</body>
+</html>
