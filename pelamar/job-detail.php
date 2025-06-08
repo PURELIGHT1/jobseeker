@@ -1,6 +1,15 @@
 <?php
 session_start();
-require_once("../umum/config.php");
+
+$url = [
+    'config' => '../config/config.php',
+    'style' => '../style/job_detail.css',
+    'image' => '../gambar',
+];
+
+require_once($url['config']);
+
+
 $loged_in = false;
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
     $loged_in = true;
@@ -79,21 +88,10 @@ $hasApplied = false;
 <head>
     <meta charset="UTF-8" />
     <title>Detail Lowongan - <?= htmlspecialchars($lowongan['title']) ?></title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { display: flex; gap: 40px; }
-        .job-detail, .company-detail { border: 1px solid #ccc; padding: 20px; border-radius: 6px; }
-        .job-detail { flex: 3; }
-        .company-detail { flex: 1; background-color: #f9f9f9; }
-        img.logo { max-width: 200px; margin-bottom: 15px; }
-        h2, h3 { margin: 10px 0; }
-        .btn-apply { background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 15px 0; }
-        .btn-apply:hover { background-color: #0056b3; }
-        ol { padding-left: 20px; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="<?= $url['style'] ?>">
 </head>
 <body>
-    <h1>Detail Lowongan Pekerjaan</h1>
+    <a href="javascript:history.back()" class="kembali">&larr; Kembali</a>
 
     <div class="container">
         <div class="job-detail">
@@ -124,7 +122,7 @@ $hasApplied = false;
         </div>
 
         <div class="company-detail">
-            <img src="../gambar/<?= $lowongan['logo'] ?>" alt="Logo <?=$lowongan['company_name']?>" class="logo" />
+            <img src="<?= $url['image'] . '/' .  $lowongan['logo']?>" alt="Logo <?=$lowongan['company_name']?>" class="logo" />
             <h3><?= $lowongan['company_name'] ?></h3>
             <p><strong>Jenis Perusahaan:</strong> <?= $lowongan['company_type'] ?></p>
             <p><strong>Jumlah Pegawai:</strong> <?= $lowongan['employees'] ?></p>

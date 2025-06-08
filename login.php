@@ -1,7 +1,11 @@
 <?php
 session_start();
-require_once("../umum/config.php");
+require_once("./config/config.php");
 
+$url = [
+    'style' => './style/style.css',
+    'job_list' => './general/job-list.php',
+];
 
 if (isset($_SESSION['id_u'])) {
     header("Location: ../umum/job_list.php");
@@ -42,7 +46,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             setcookie('role', $data['role'], $expire);
             setcookie('id_s', $hasil['id'], $expire);
             setcookie('full_name', $hasil['full_name'], $expire);
-            header("Location: ../umum/job_list.php?login=success");
         } elseif ($data['role'] == 'company') {
             $qry = "SELECT * FROM companies WHERE user_id = {$data['id']} LIMIT 1";
             $result = mysqli_query($conn, $qry);
@@ -55,11 +58,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             setcookie('role', $data['role'], $expire);
             setcookie('id_c', $hasil['id'], $expire);
             setcookie('company_name', $hasil['company_name'], $expire);
-            header("Location: ../perusahaan/job_list.php?login=success");
         } else {
             $error = "Role tidak dikenali.";
         }
 
+        header("Location: ". $url['job_list'] ."?login=success");
         exit();
     } else {
         $error = "Email atau Password salah.";
@@ -74,7 +77,7 @@ $error = !empty($error) ? htmlspecialchars($error) : '';
 <html>
 <head>
     <title>Login</title>
-    <link rel="stylesheet" href="../umum/style.css">
+    <link rel="stylesheet" href="<?= $url['style'] ?>">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -90,9 +93,9 @@ $error = !empty($error) ? htmlspecialchars($error) : '';
             <button type="submit">Login</button>
         </form>
 
-        <div style="margin-top: 10px;">
+        <!-- <div style="margin-top: 10px;">
             <a href="../umum/job_list.php" class="btn-link">Lihat Daftar Lowongan</a>
-        </div>
+        </div> -->
     </div>
 
     <?php if (!empty($error)): ?>

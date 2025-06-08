@@ -1,0 +1,53 @@
+body { 
+    font-family: Arial, sans-serif; 
+    margin: 20px; 
+}
+.container { 
+    display: flex; 
+    gap: 40px; 
+}
+.job-detail, .company-detail { 
+    border: 1px solid #ccc; 
+    padding: 20px; 
+    border-radius: 6px; 
+}
+.job-detail { 
+    flex: 3; 
+}
+.company-detail { 
+    flex: 1; 
+    background-color: #f9f9f9; 
+}
+img.logo { 
+    max-width: 200px; 
+    margin-bottom: 15px; 
+}
+h2, h3 { 
+    margin: 10px 0; 
+}
+.btn-apply { 
+    background-color: #007bff; 
+    color: white; 
+    padding: 10px 15px; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    display: inline-block; 
+    margin: 15px 0; 
+}
+.btn-apply:hover {
+     background-color: #0056b3;
+}
+ol { 
+    padding-left: 20px; 
+}
+
+.kembali {
+    display: inline-block;
+    background-color: #e91e63;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
